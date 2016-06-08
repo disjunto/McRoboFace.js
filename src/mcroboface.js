@@ -2,10 +2,12 @@ var leds = [];
 var NUM_LEDS = 17;
 
 McRoboFace = {
+    program: "",
     init: function () {
         for (i = 0; i < 17; i++) {
             this.setLed(i, 0, 0, 0);
         }
+        console.log(this);
         this.show();
     },
     setLed: function (led, red, green, blue) {
@@ -16,7 +18,15 @@ McRoboFace = {
         }
     },
     run: function (program, method) {
+        // Set properties for liveReload
+        console.log(this);
+        var that = this;
+        this.program = program;
+
         jQuery.get("src/" + program + "/" + program + ".ino").success(function(data) {
+            // Cache the data for liveReload
+            that.dataCache = data;
+
             // Get start of code block based on method name
             var startChr = data.indexOf("void " + method + "()");
             var code = data.substr(startChr);
@@ -26,26 +36,42 @@ McRoboFace = {
             var cutOff = 0;
             var offset = 0;
             do {
+                var openCount = 0;
+                var closeCount = 0;
                 cutOff++;
-                offset += code.indexOf('}') + 1
+                offset = code.indexOf('}', offset) + 1;
                 tmpCode = code.substr(0, offset);
 
-                var open = tmpCode.match(/{/g).length;
-                var close = tmpCode.match(/}/g).length;
-            } while (close != open);
+                var open = tmpCode.match(/{/g);
+                openCount = open ? open.length : 0;
+                var close = tmpCode.match(/}/g);
+                closeCount = close ? close.length : 0;
+            } while (closeCount != openCount || cutOff == 10);
 
             // Replace void with function
             tmpCode = tmpCode.replace("void " + method + "()", "(function()");
 
             // Replace int/char with var
-            code = tmpCode.replace(/(int|char)/g, "var") + ")();";
+            code = tmpCode.replace(/(int|char|CRGB)\s/g, "var ") + ")();";
 
             // Honest, this is safe
             eval(code);
+
+            // if that didn't crash, configure the live reload
+            setInterval(that.liveReload, 5000);
         });
     },
     show: function () {
         FastLED.show();
+    },
+    liveReload: function() {
+        jQuery.get("src/" + McRoboFace.program + "/" + McRoboFace.program + ".ino").success(function(data) {
+            if (data != McRoboFace.dataCache) {
+                location.reload();
+            } else {
+                console.log('data matches');
+            }
+        });
     }
 };
 
