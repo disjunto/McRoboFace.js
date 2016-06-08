@@ -1,0 +1,102 @@
+.bound {
+    padding: 20px;
+    botder: 1px solid red;
+}
+
+#face {
+    position: relative;
+    height:150px;
+    width: 150px;
+}
+
+.led {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+
+    border: 1px solid black;
+
+    box-sizing: border-box;
+}
+.led--large {
+    width: 20px;
+    height: 20px;
+}
+
+
+#led-0 {
+    right: 5px;
+    bottom: 25px;
+}
+#led-1 {
+    right: 30px;
+    bottom: 8px;
+}
+#led-2 {
+    right: 55px;
+    bottom: 0;
+}
+#led-3 {
+    right: 80px;
+    bottom: 0;
+}
+#led-4 {
+    right: 105px;
+    bottom: 8px;
+}
+#led-5 {
+    right: 130px;
+    bottom: 25px;
+}
+
+/* Middle */
+#led-6 {
+    right: 30px;
+    bottom: 25px;
+}
+#led-7 {
+    right: 55px;
+    bottom: 25px;
+}
+#led-8 {
+    right: 80px;
+    bottom: 25px;
+}
+#led-9 {
+    right: 105px;
+    bottom: 25px;
+}
+
+/* Top */
+#led-10 {
+    right: 30px;
+    bottom: 42px;
+}
+#led-11 {
+    right: 55px;
+    bottom: 50px;
+}
+#led-12 {
+    right: 80px;
+    bottom: 50px;
+}
+#led-13 {
+    right: 105px;
+    bottom: 42px;
+}
+
+/* Nose */
+#led-14 {
+    right: 67px;
+    bottom: 80px;
+}
+
+/* Eyes */
+#led-15 {
+    right: 17px;
+    bottom: 110px;
+}
+#led-16 {
+    right: 110px;
+    bottom: 110px;
+}
